@@ -1,0 +1,21 @@
+2026-11-05 | User: Test Head Coach | UserID: 938
+10:57:36 | Login | User logged in successfully | LOGIN
+
+2026-11-05 | User: Test Coach | UserID: 937
+10:57:40 | Login | User logged in successfully | LOGIN
+
+2026-11-05 | User: Test Head Coach | UserID: 938
+10:58:33 | Login | User logged in successfully | LOGIN
+
+2026-11-05 | User: Test Head Coach | UserID: 938
+11:18:37 | Login | Access token refreshed | LOGIN
+
+2026-11-05 | User: Test Head Coach | UserID: 938
+11:18:37 | Login | Access token refreshed | LOGIN
+
+2026-11-05 | User: Test Head Coach | UserID: 938
+11:18:37 | Login | Access token refreshed | LOGIN
+
+2026-11-05 | User: Test Head Coach | UserID: 938
+11:21:23 | Reports | Generated report-card PDF for result #44763 | GENERATE
+

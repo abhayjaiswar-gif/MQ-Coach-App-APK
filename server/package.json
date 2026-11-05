@@ -1,0 +1,33 @@
+{
+    "name": "myapp-server",
+    "version": "1.0.0",
+    "private": true,
+    "description": "Standalone Express API for the MyApp Expo client (same MySQL DB as MQ-Coach-App)",
+    "main": "index.js",
+    "scripts": {
+        "start": "node index.js",
+        "dev": "node --watch index.js"
+    },
+    "dependencies": {
+        "@google/genai": "^2.4.0",
+        "archiver": "^7.0.1",
+        "bcrypt": "^6.0.0",
+        "bcryptjs": "^3.0.3",
+        "cors": "^2.8.5",
+        "dotenv": "^17.3.1",
+        "express": "^4.21.0",
+        "jsonwebtoken": "^9.0.3",
+        "morgan": "^1.10.1",
+        "multer": "^2.1.1",
+        "mysql2": "^3.20.0",
+        "nodemailer": "^8.0.7",
+        "pdf-lib": "^1.17.1",
+        "puppeteer": "^25.16.0",
+        "qrcode": "^1.5.4",
+        "tesseract.js": "^7.0.0",
+        "xlsx": "^0.18.5"
+    },
+    "allowScripts": {
+        "puppeteer@25.16.0": true
+    }
+}

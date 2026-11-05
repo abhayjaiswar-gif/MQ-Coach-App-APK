@@ -1,0 +1,1094 @@
+.wrc-root {
+  --wrc-red: #ec1c25;
+  --wrc-red-dark: #9d1f25;
+  --wrc-black: #252729;
+  --wrc-grey-body: #252729;
+  --wrc-white: #ffffff;
+  --wrc-page-width: 794px;
+  --wrc-page-height: 1123px;
+
+  width: 100%;
+  font-family: 'Poppins', sans-serif;
+  color: var(--wrc-black);
+}
+
+.wrc-preview-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  padding: 8px 8px 40px;
+  width: 100%;
+}
+
+.wrc-page-scaler {
+  margin: 0 auto 48px;
+  flex-shrink: 0;
+  width: var(--wrc-page-width);
+  zoom: var(--wrc-screen-scale, 1);
+  isolation: isolate;
+}
+
+.wrc-page-scaler:last-child {
+  margin-bottom: 0;
+}
+
+.wrc-page-wrapper {
+  width: var(--wrc-page-width);
+  box-shadow: 0 14px 45px rgba(37, 39, 41, 0.16);
+  border-radius: 2px;
+}
+
+/* Firefox: zoom not supported — scale the scaler and reserve layout space */
+@supports not (zoom: 1) {
+  .wrc-page-scaler {
+    zoom: 1;
+    transform: scale(var(--wrc-screen-scale, 1));
+    transform-origin: top center;
+    width: var(--wrc-page-width);
+  }
+
+  .wrc-page-scaler--cover,
+  .wrc-page-scaler--gallery {
+    margin-bottom: calc(48px + var(--wrc-page-height) * (1 - var(--wrc-screen-scale, 1)));
+  }
+
+  .wrc-page-scaler--coaches {
+    margin-bottom: calc(48px + var(--wrc-scaled-height, var(--wrc-page-height)) * (1 - var(--wrc-screen-scale, 1)));
+  }
+
+  .wrc-page-scaler:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.wrc-report-page {
+  position: relative;
+  width: var(--wrc-page-width);
+  height: var(--wrc-page-height);
+  background: var(--wrc-white);
+  overflow: hidden;
+}
+
+.wrc-bg-image {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(230, 237, 243, 0.55) 0%, rgba(255, 255, 255, 0.72) 50%, rgba(255, 255, 255, 0.8) 100%),
+    linear-gradient(160deg, #c5d0da 0%, #e8eef3 40%, #b8c8d4 100%);
+  z-index: 0;
+}
+
+.wrc-shapes-layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.wrc-school-name-row {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 10px;
+  margin-bottom: 13px;
+}
+
+.wrc-school-logo {
+  width: 96px;
+  height: 96px;
+  flex-shrink: 0;
+  display: block;
+  object-fit: contain;
+  background: var(--wrc-white);
+  border-radius: 6px;
+  padding: 4px;
+}
+
+.wrc-school-logo-fallback {
+  width: 96px;
+  height: 96px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--wrc-white);
+  color: var(--wrc-red);
+  font-weight: 700;
+  font-size: 2.25rem;
+  border-radius: 6px;
+}
+
+.wrc-brand-block {
+  position: absolute;
+  top: 50px;
+  right: 54px;
+  z-index: 3;
+}
+
+.wrc-brand-logo {
+  width: 230px;
+  height: auto;
+  display: block;
+  object-fit: contain;
+}
+
+.wrc-hero-content {
+  position: absolute;
+  top: 286px;
+  left: 56px;
+  z-index: 3;
+  width: 395px;
+}
+
+.wrc-year-label {
+  font-size: 1.32rem;
+  font-weight: 700;
+  color: var(--wrc-red);
+  letter-spacing: 0.02em;
+  margin-bottom: 0;
+}
+
+.wrc-report-title {
+  margin: 2px 0 18px;
+}
+
+.wrc-title-line {
+  display: block;
+  font-size: 4.65rem;
+  font-weight: 800;
+  line-height: 0.9;
+  letter-spacing: -0.015em;
+  text-transform: uppercase;
+}
+
+.wrc-title-black {
+  color: var(--wrc-black);
+}
+
+.wrc-title-red {
+  color: var(--wrc-red);
+}
+
+.wrc-subtitle {
+  font-size: 1.88rem;
+  font-weight: 700;
+  color: var(--wrc-black);
+  margin-bottom: 0;
+  line-height: 1.35;
+}
+
+.wrc-description {
+  font-size: 0.84rem;
+  font-weight: 500;
+  line-height: 1.78;
+  color: #000;
+  max-width: 368px;
+}
+
+.wrc-desc-separator {
+  color: #000;
+}
+
+.wrc-page-footer {
+  position: absolute;
+  right: 50px;
+  bottom: 38px;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 7px;
+  color: var(--wrc-white);
+  width: 186px;
+}
+
+.wrc-footer-item {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 0.61rem;
+  font-weight: 400;
+  line-height: 1.35;
+}
+
+.wrc-footer-icon {
+  width: 13px;
+  height: 13px;
+  flex-shrink: 0;
+}
+
+.wrc-report-page--coaches {
+  background: #f4f6f8;
+  display: flex;
+  flex-direction: column;
+  height: auto;
+  min-height: var(--wrc-page-height);
+  overflow: visible;
+}
+
+.wrc-coaches-header {
+  display: flex;
+  align-items: center;
+  padding: 20px 48px 18px;
+  background: linear-gradient(135deg, var(--wrc-red) 0%, var(--wrc-red-dark) 100%);
+  color: var(--wrc-white);
+  flex-shrink: 0;
+}
+
+.wrc-coaches-header__title {
+  font-size: 1.72rem;
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.wrc-coaches-body {
+  flex: none;
+  padding: 12px 44px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.wrc-coaches-section {
+  background: var(--wrc-white);
+  border: 1px solid #e2e8ee;
+  border-radius: 6px;
+  padding: 10px 12px 12px;
+  box-shadow: 0 2px 8px rgba(37, 39, 41, 0.04);
+  display: flex;
+  flex-direction: column;
+  flex: none;
+  overflow: visible;
+}
+
+.wrc-coaches-section__head {
+  margin-bottom: 8px;
+  flex-shrink: 0;
+}
+
+.wrc-coaches-section__title {
+  font-size: 0.86rem;
+  font-weight: 700;
+  color: var(--wrc-black);
+  line-height: 1.3;
+}
+
+.wrc-coaches-section--concerns {
+  background: #fff8f8;
+  border-color: #f0d4d6;
+}
+
+.wrc-coaches-concerns-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 6px;
+  flex: none;
+}
+
+.wrc-coaches-concerns-list li {
+  position: relative;
+  padding: 8px 10px 8px 20px;
+  font-size: 0.66rem;
+  line-height: 1.55;
+  color: var(--wrc-grey-body);
+  background: var(--wrc-white);
+  border-left: 3px solid var(--wrc-red);
+  border-radius: 0 4px 4px 0;
+  flex: none;
+  display: block;
+}
+
+.wrc-coaches-concerns-list li::before {
+  content: '!';
+  position: absolute;
+  left: 7px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.58rem;
+  font-weight: 800;
+  color: var(--wrc-red);
+}
+
+.wrc-coaches-footer {
+  height: 6px;
+  background: linear-gradient(90deg, var(--wrc-red-dark) 0%, var(--wrc-red) 50%, var(--wrc-red-dark) 100%);
+  flex-shrink: 0;
+}
+
+/* Coaches PDF pages — same chrome as the web app (header, body, footer) */
+.wrc-coaches-pdf-sheet {
+  width: var(--wrc-page-width);
+  min-height: var(--wrc-page-height);
+  height: var(--wrc-page-height);
+  background: #f4f6f8;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.wrc-coaches-pdf-sheet .wrc-coaches-body {
+  flex: none;
+  min-height: 0;
+  overflow: visible;
+  gap: 18px;
+}
+
+.wrc-coaches-pdf-sheet--continued .wrc-coaches-body {
+  padding-top: 14px;
+}
+
+.wrc-coaches-pdf-mount {
+  pointer-events: none;
+}
+
+.wrc-coaches-section__title--continued::after {
+  content: ' (continued)';
+  font-weight: 600;
+  color: #666;
+}
+
+.wrc-coach-table-wrap {
+  overflow: visible;
+  border: 1px solid #e3e8ee;
+  border-radius: 4px;
+  border-left: 3px solid var(--wrc-red);
+  flex: none;
+}
+
+.wrc-coach-table {
+  width: 100%;
+  height: auto;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+.wrc-coach-table thead {
+  background: #f0f3f6;
+}
+
+.wrc-coach-table th {
+  padding: 6px 5px;
+  font-size: 0.58rem;
+  font-weight: 700;
+  color: var(--wrc-red-dark);
+  text-align: left;
+  line-height: 1.25;
+  border-bottom: 2px solid var(--wrc-red);
+  white-space: normal;
+}
+
+.wrc-coach-table td {
+  padding: 6px 5px;
+  font-size: 0.56rem;
+  font-weight: 400;
+  line-height: 1.45;
+  color: var(--wrc-grey-body);
+  border-top: 1px solid #e8edf2;
+  vertical-align: top;
+  word-break: break-word;
+}
+
+.wrc-coach-table tbody tr {
+  height: auto;
+}
+
+.wrc-coach-table tbody tr:nth-child(even) {
+  background: #fafbfc;
+}
+
+.wrc-coach-table td:first-child {
+  font-weight: 600;
+  color: var(--wrc-black);
+}
+
+.wrc-coach-table td:nth-child(2) {
+  font-weight: 600;
+  color: var(--wrc-red-dark);
+}
+
+.wrc-coach-table--skills th:nth-child(1) {
+  width: 11%;
+}
+
+.wrc-coach-table--skills th:nth-child(2) {
+  width: 9%;
+}
+
+.wrc-coach-table--skills th:nth-child(3) {
+  width: 14%;
+}
+
+.wrc-coach-table--skills th:nth-child(4) {
+  width: 18%;
+}
+
+.wrc-coach-table--skills th:nth-child(5) {
+  width: 11%;
+}
+
+.wrc-coach-table--skills th:nth-child(6) {
+  width: 10%;
+}
+
+.wrc-coach-table--skills th:nth-child(7) {
+  width: 10%;
+}
+
+.wrc-coach-table--skills th:nth-child(8) {
+  width: 17%;
+}
+
+.wrc-coach-table--attendance th:nth-child(1) {
+  width: 14%;
+}
+
+.wrc-coach-table--attendance th:nth-child(2) {
+  width: 18%;
+}
+
+.wrc-coach-table--attendance th:nth-child(3) {
+  width: 14%;
+}
+
+.wrc-coach-table--attendance th:nth-child(4) {
+  width: 16%;
+}
+
+.wrc-coach-table--attendance th:nth-child(5) {
+  width: 20%;
+}
+
+.wrc-coach-table--attendance th:nth-child(6) {
+  width: 18%;
+}
+
+.wrc-coach-table--extra th:nth-child(1) {
+  width: 12%;
+}
+
+.wrc-coach-table--extra th:nth-child(2) {
+  width: 10%;
+}
+
+.wrc-coach-table--extra th:nth-child(3) {
+  width: 16%;
+}
+
+.wrc-coach-table--extra th:nth-child(4) {
+  width: 20%;
+}
+
+.wrc-coach-table--extra th:nth-child(5) {
+  width: 12%;
+}
+
+.wrc-coach-table--extra th:nth-child(6) {
+  width: 12%;
+}
+
+.wrc-coach-table--extra th:nth-child(7) {
+  width: 18%;
+}
+
+.wrc-empty-cell {
+  color: #8a9199 !important;
+  font-style: italic;
+  text-align: center;
+}
+
+.wrc-report-page--gallery {
+  background: #1e2124;
+  display: flex;
+}
+
+.wrc-gallery-sidebar {
+  width: 14px;
+  flex-shrink: 0;
+  background: linear-gradient(180deg, var(--wrc-red) 0%, var(--wrc-red-dark) 100%);
+}
+
+.wrc-gallery-layout {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 20px 24px 36px 22px;
+  min-width: 0;
+  min-height: 0;
+}
+
+.wrc-gallery-header {
+  margin-bottom: 10px;
+  flex-shrink: 0;
+}
+
+.wrc-gallery-header__title {
+  font-size: 1.65rem;
+  font-weight: 700;
+  color: var(--wrc-white);
+  line-height: 1.1;
+}
+
+.wrc-gallery-header__page {
+  margin-top: 4px;
+  font-size: 0.7rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.72);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.wrc-gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, minmax(0, 1fr));
+  column-gap: 10px;
+  row-gap: 22px;
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+  align-content: start;
+}
+
+.wrc-gallery-card {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+  background: var(--wrc-white);
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.28);
+}
+
+.wrc-gallery-card__photo {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  background: linear-gradient(160deg, #d8e2ea 0%, #b8c8d4 100%);
+}
+
+.wrc-gallery-card__photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.wrc-gallery-card__caption {
+  padding: 6px 8px;
+  font-size: 0.58rem;
+  font-weight: 600;
+  color: var(--wrc-white);
+  text-align: center;
+  line-height: 1.3;
+  background: var(--wrc-red);
+  flex-shrink: 0;
+}
+
+.wrc-gallery-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: rgba(37, 39, 41, 0.45);
+}
+
+.wrc-gallery-empty {
+  grid-column: 1 / -1;
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 0.85rem;
+  font-weight: 500;
+  padding: 24px 0;
+}
+
+/* PDF export — WYSIWYG: reset zoom/scale; coaches page grows with content */
+.wrc-pdf-export {
+  --wrc-screen-scale: 1 !important;
+
+  .wrc-preview-area {
+    padding: 0 !important;
+    gap: 0 !important;
+  }
+
+  .wrc-page-scaler {
+    width: var(--wrc-page-width) !important;
+    margin: 0 !important;
+    zoom: 1 !important;
+    transform: none !important;
+  }
+
+  .wrc-page-wrapper {
+    box-shadow: none !important;
+    width: var(--wrc-page-width) !important;
+    transform: none !important;
+    border-radius: 0 !important;
+  }
+
+  .wrc-page-wrapper:has(.wrc-report-page--cover),
+  .wrc-page-wrapper:has(.wrc-report-page--gallery) {
+    height: var(--wrc-page-height) !important;
+    overflow: hidden !important;
+  }
+
+  .wrc-page-wrapper:has(.wrc-report-page--coaches) {
+    height: auto !important;
+    overflow: visible !important;
+  }
+
+  .wrc-report-page--cover,
+  .wrc-report-page--gallery {
+    width: var(--wrc-page-width) !important;
+    height: var(--wrc-page-height) !important;
+    overflow: hidden !important;
+  }
+
+  .wrc-coaches-pdf-sheet {
+    width: var(--wrc-page-width) !important;
+    min-height: var(--wrc-page-height) !important;
+    height: var(--wrc-page-height) !important;
+    overflow: hidden !important;
+    background: #f4f6f8 !important;
+    display: flex !important;
+    flex-direction: column !important;
+  }
+
+  .wrc-coaches-pdf-sheet .wrc-coaches-body {
+    flex: none !important;
+    overflow: visible !important;
+    gap: 18px !important;
+  }
+}
+
+/* =========================================================
+   ACTIVITY & EVIDENCE GALLERY
+   ========================================================= */
+
+.wrc-report-page--gallery {
+  background: #1c2023;
+}
+
+.wrc-gallery-page {
+  position: relative;
+  width: 100%;
+  min-height: 100%;
+  background: #1c2023;
+  color: #ffffff;
+  padding: 34px 42px 28px;
+  box-sizing: border-box;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Left red brand stripe */
+.wrc-gallery-accent {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 8px;
+  background: #ed1c24;
+}
+
+/* ---------------------------------------------------------
+   HEADER
+   --------------------------------------------------------- */
+
+.wrc-gallery-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+  padding-left: 12px;
+  padding-bottom: 22px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.wrc-gallery-title {
+  margin: 0;
+  color: #ffffff;
+  font-size: 25px;
+  line-height: 1.2;
+  font-weight: 800;
+  letter-spacing: -0.3px;
+}
+
+.wrc-gallery-subtitle {
+  margin: 7px 0 0;
+  color: #aeb6bf;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+}
+
+.wrc-gallery-meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #9da6af;
+  font-size: 10px;
+  white-space: nowrap;
+}
+
+.wrc-gallery-header-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+}
+
+.wrc-gallery-logo {
+  height: 60px;
+  width: auto;
+  display: block;
+  object-fit: contain;
+}
+
+/* Add media button */
+.wrc-gallery-add {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 0;
+  border-radius: 7px;
+  padding: 8px 12px;
+  background: #ed1c24;
+  color: #ffffff;
+  font-size: 10px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(237, 28, 36, 0.2);
+}
+
+.wrc-gallery-add:hover {
+  background: #d91820;
+}
+
+.wrc-gallery-add .material-symbols-outlined {
+  font-size: 15px;
+}
+
+/* ---------------------------------------------------------
+   CONTENT
+   --------------------------------------------------------- */
+
+.wrc-gallery-content {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 28px 12px 20px;
+}
+
+/* ---------------------------------------------------------
+   IMAGE GRID
+   --------------------------------------------------------- */
+
+.wrc-gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  align-content: start;
+  align-self: stretch;
+  min-height: 0;
+}
+
+/* ---------------------------------------------------------
+   IMAGE CARD
+   --------------------------------------------------------- */
+
+.wrc-gallery-card {
+  margin: 0;
+  overflow: hidden;
+  border-radius: 7px;
+  background: #252a2e;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.18);
+}
+
+.wrc-gallery-image {
+  position: relative;
+  width: 100%;
+  height: 205px;
+  overflow: hidden;
+  background: #dbe3ea;
+}
+
+.wrc-gallery-image img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+/* ---------------------------------------------------------
+   IMAGE ACTIONS
+   --------------------------------------------------------- */
+
+.wrc-gallery-actions {
+  position: absolute;
+  top: 9px;
+  right: 9px;
+  display: flex;
+  gap: 6px;
+}
+
+.wrc-gallery-action {
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  cursor: pointer;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.25);
+}
+
+.wrc-gallery-action .material-symbols-outlined {
+  font-size: 15px;
+}
+
+.wrc-gallery-action--edit {
+  background: #2563eb;
+}
+
+.wrc-gallery-action--delete {
+  background: #ed1c24;
+}
+
+/* ---------------------------------------------------------
+   RED CAPTION BAR
+   --------------------------------------------------------- */
+
+.wrc-gallery-caption {
+  min-height: 31px;
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #ed1c24;
+  color: #ffffff;
+  font-size: 10px;
+  line-height: 1;
+  font-weight: 700;
+  text-align: center;
+  text-transform: none;
+}
+
+/* ---------------------------------------------------------
+   EMPTY STATE
+   --------------------------------------------------------- */
+
+.wrc-gallery-empty-state {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 40px 30px;
+  position: relative;
+}
+
+.wrc-gallery-empty-state::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 420px;
+  height: 420px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(237, 28, 36, 0.12) 0%, rgba(237, 28, 36, 0) 68%);
+  pointer-events: none;
+}
+
+.wrc-gallery-empty-icon {
+  width: 180px;
+  height: 160px;
+  margin-bottom: 20px;
+}
+
+.wrc-gallery-empty-icon img {
+  width: 200px;
+  height: auto;
+  object-fit: contain;
+}
+
+.wrc-gallery-empty-icon .material-symbols-outlined {
+  font-size: 46px;
+  color: #ed1c24;
+}
+
+.wrc-gallery-empty-state h2 {
+  margin: 0;
+  color: #ffffff;
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: -0.3px;
+}
+
+.wrc-gallery-empty-state p {
+  max-width: 440px;
+  margin: 14px 0 0;
+  color: #b7c0ca;
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+.wrc-gallery-empty-note {
+  margin-top: 12px;
+  color: #7e8a95;
+  font-size: 11px;
+  letter-spacing: 0.2px;
+}
+
+.wrc-gallery-empty-action {
+  margin-top: 26px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 20px;
+  border: 0;
+  border-radius: 8px;
+  background: #ed1c24;
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 6px 18px rgba(237, 28, 36, 0.25);
+}
+
+.wrc-gallery-empty-action .material-symbols-outlined {
+  font-size: 16px;
+}
+
+/* ---------------------------------------------------------
+   FOOTER
+   --------------------------------------------------------- */
+
+.wrc-gallery-footer {
+  margin-top: auto;
+  padding: 0 12px;
+}
+
+.wrc-gallery-footer-line {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.wrc-gallery-footer-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 12px;
+  color: #69737d;
+  font-size: 8px;
+  font-weight: 600;
+}
+
+/* ---------------------------------------------------------
+   PRINT / PDF
+   --------------------------------------------------------- */
+
+@media print {
+  .wrc-gallery-add,
+  .wrc-gallery-actions,
+  .wrc-gallery-empty-action {
+    display: none !important;
+  }
+}
+
+@media print {
+  .wrc-page-wrapper {
+    box-shadow: none;
+    zoom: 1;
+    transform: none;
+    page-break-after: always;
+  }
+
+  .wrc-page-scaler {
+    margin-bottom: 0;
+  }
+}
+
+/* =========================================================
+   FIX GALLERY PAGE IN PDF EXPORT
+   ========================================================= */
+
+.wrc-pdf-export .wrc-preview-area {
+  display: block !important;
+}
+
+.wrc-pdf-export .wrc-page-scaler {
+  display: block !important;
+  width: var(--wrc-page-width) !important;
+  margin: 0 !important;
+  zoom: 1 !important;
+  transform: none !important;
+
+  break-inside: avoid !important;
+  page-break-inside: avoid !important;
+}
+
+/* Cover starts the PDF */
+.wrc-pdf-export .wrc-page-scaler--cover {
+  break-before: auto !important;
+  page-break-before: auto !important;
+  break-after: page !important;
+  page-break-after: always !important;
+}
+
+/* Coaches section gets its own PDF page(s) */
+.wrc-pdf-export .wrc-page-scaler--coaches {
+  break-before: page !important;
+  page-break-before: always !important;
+}
+
+/* IMPORTANT: Gallery must always start on a new PDF page */
+.wrc-pdf-export .wrc-page-scaler--gallery {
+  break-before: page !important;
+  page-break-before: always !important;
+  break-after: page !important;
+  page-break-after: always !important;
+}
+
+/* Keep the complete dark gallery page together */
+.wrc-pdf-export .wrc-report-page--gallery {
+  width: var(--wrc-page-width) !important;
+  height: var(--wrc-page-height) !important;
+  min-height: var(--wrc-page-height) !important;
+  overflow: hidden !important;
+
+  break-inside: avoid !important;
+  page-break-inside: avoid !important;
+}
+
+/* Gallery wrapper must occupy a complete A4 page */
+.wrc-pdf-export .wrc-page-wrapper:has(.wrc-report-page--gallery) {
+  width: var(--wrc-page-width) !important;
+  height: var(--wrc-page-height) !important;
+  min-height: var(--wrc-page-height) !important;
+  overflow: hidden !important;
+
+  break-inside: avoid !important;
+  page-break-inside: avoid !important;
+}
