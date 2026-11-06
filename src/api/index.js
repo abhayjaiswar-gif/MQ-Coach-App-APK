@@ -299,11 +299,17 @@ export async function getCurriculumSports(program, schoolId) {
   const d = await getJson(path, 'Failed to load sports');
   return (d.sports || []).map((s) => String(s).trim()).filter(Boolean);
 }
-// inschool: GET /api/students/standards?school_id= -> { standards } | sdp/msfc: GET /api/curriculum/{p}/grades/:sport -> { grades }
+// inschool: GET /api/curriculum/school-grades?school_id=&sport= -> { grades } (only grades that have lesson plans)
+// Without a sport (Extra Covered screen), keep the school's full standards list.
+// sdp/msfc: GET /api/curriculum/{p}/grades/:sport -> { grades }
 export async function getCurriculumGrades(program, sport, schoolId) {
   if (program === 'inschool') {
-    const d = await getJson(`/api/students/standards?${qs({ school_id: schoolId })}`, 'Failed to load grades');
-    return d.standards || [];
+    if (!sport) {
+      const d = await getJson(`/api/students/standards?${qs({ school_id: schoolId })}`, 'Failed to load grades');
+      return d.standards || [];
+    }
+    const d = await getJson(`/api/curriculum/school-grades?${qs({ school_id: schoolId, sport })}`, 'Failed to load grades');
+    return d.grades || [];
   }
   const d = await getJson(`/api/curriculum/${program}/grades/${encodeURIComponent(sport)}`, 'Failed to load groups');
   return d.grades || [];

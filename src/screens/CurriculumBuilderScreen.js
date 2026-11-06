@@ -5,7 +5,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { colors, themed, currentMode } from '../theme/colors';
 import { useAuth } from '../context/AuthContext';
-import { getSchools, getCurriculumSports, getCurriculumGrades, getGradeLevelMap, getSportLessonPlans, fileUrl } from '../api';
+import { getSchools, getCurriculumSports, getCurriculumGrades, getSportLessonPlans, fileUrl } from '../api';
 
 // Native version of web SelectCurriculumPage (MQ Curriculum):
 // Program -> School (only if >1) -> Sport -> Grade / Under group -> Lesson plans
@@ -74,15 +74,7 @@ export default function CurriculumBuilderScreen({ navigation, route }) {
   useEffect(() => { run(async () => { const s = await getSchools(user); setSchools(s); if (s.length === 1) setSchool(s[0]); }); }, [user]);
 
   const loadPlans = useCallback((p, sc, sp, gr) => run(async () => {
-    let levelGrade = gr;
-    if (p === 'inschool' && gr) {
-      const { map, school_grade_map } = await getGradeLevelMap(sc.id, sp);
-      const key = String(gr).match(/\d+/)?.[0] || gr;
-      const hit = map[gr] || map[key] || school_grade_map[gr] || school_grade_map[key];
-      const any = Object.values(map).find((m) => m?.level_grade && !/^n\/?a$/i.test(m.level_grade));
-      levelGrade = hit?.level_grade || any?.level_grade || null;
-    }
-    setPlans(await getSportLessonPlans(p, { schoolId: sc.id, sport: sp, grade: levelGrade, schoolGrade: p === 'inschool' ? gr : undefined }));
+    setPlans(await getSportLessonPlans(p, { schoolId: sc.id, sport: sp, grade: gr }));
   }), []);
 
   // Load the data each step needs when it becomes visible

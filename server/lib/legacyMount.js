@@ -9073,6 +9073,64 @@ app.get("/api/curriculum/school-sports", async (req, res) => {
   }
 });
 
+// 🎯 GET GRADES THAT HAVE LESSON PLANS FOR SCHOOL + SPORT (In-School)
+app.get("/api/curriculum/school-grades", async (req, res) => {
+  const { school_id, sport } = req.query;
+  if (!school_id || !sport) {
+    return res
+      .status(400)
+      .json({ success: false, message: "school_id and sport are required" });
+  }
+  try {
+    const rankGrade = (g) => {
+      const s = String(g || "").trim().toLowerCase();
+      if (s.includes("nursery")) return 1;
+      if (s.includes("jr") && s.includes("kg")) return 2;
+      if (s.includes("sr") && s.includes("kg")) return 3;
+      const num = parseInt(s.replace(/\D/g, ""), 10);
+      if (!isNaN(num)) return 4 + num;
+      return 999;
+    };
+
+    // 1. Check assigned_lesson_plans first
+    let [rows] = await db.query(
+      `SELECT DISTINCT grade FROM assigned_lesson_plans 
+       WHERE school_id = ? AND TRIM(LOWER(sport)) = TRIM(LOWER(?)) AND grade IS NOT NULL AND grade != ''`,
+      [school_id, sport],
+    );
+
+    // 2. Fallback to the published year-plan window for this school
+    if (rows.length === 0) {
+      [rows] = await db.query(
+        `SELECT DISTINCT grade FROM year_lp_master_new 
+         WHERE school_id = ? AND TRIM(LOWER(sport)) = TRIM(LOWER(?))
+           AND (current_show_status = 0 OR current_show_status IS NULL)
+           AND grade IS NOT NULL AND grade != ''`,
+        [school_id, sport],
+      );
+    }
+
+    // 3. Fallback to year_lp_master (master data)
+    if (rows.length === 0) {
+      [rows] = await db.query(
+        `SELECT DISTINCT grade FROM year_lp_master 
+         WHERE TRIM(LOWER(sport)) = TRIM(LOWER(?)) AND grade IS NOT NULL AND grade != ''`,
+        [sport],
+      );
+    }
+
+    const grades = rows
+      .map((r) => r.grade)
+      .filter(Boolean)
+      .sort((a, b) => rankGrade(a) - rankGrade(b));
+
+    res.json({ success: true, grades });
+  } catch (err) {
+    console.error("FETCH SCHOOL GRADES ERROR:", err);
+    res.status(500).json({ success: false, message: "Error fetching grades" });
+  }
+});
+
 // 🎯 GET ALL LESSON PLANS for school + sport (all levels, no grade filter)
 app.get("/api/curriculum/sport-lesson-plans", async (req, res) => {
   const { sport, school_id, grade } = req.query;
@@ -9121,6 +9179,42 @@ app.get("/api/curriculum/sport-lesson-plans", async (req, res) => {
         params: gradeList,
       };
     })();
+
+    // 0. Check assigned_lesson_plans first for this school + sport
+    const [assignedLps] = await db.query(
+      `SELECT alp.id, alp.lp_unique_id as unique_id, alp.lp_unique_id, alp.lp_no, alp.sport, alp.grade, 
+              alp.skill, alp.sub_skill, alp.objective, alp.warm_up, alp.skill_implementation,
+              alp.teaching_aids, alp.cool_down, alp.summarization, alp.life_skill, alp.picture, 
+              alp.month_year, alp.week, alp.created_at,
+              COALESCE(ls.status, alp.status_work) as lp_status
+       FROM assigned_lesson_plans alp
+       LEFT JOIN lp_status ls ON ls.lp_unique_id = alp.lp_unique_id AND ls.user_id = alp.assigned_to
+       WHERE alp.school_id = ? AND TRIM(LOWER(alp.sport)) = TRIM(LOWER(?))
+       ORDER BY alp.id ASC`,
+      [school_id, sport],
+    );
+
+    if (assignedLps.length > 0) {
+      const reqGrade = (grade ? String(grade).trim() : "") || (req.query.school_grade ? String(req.query.school_grade).trim() : "");
+      let filtered = assignedLps;
+      if (reqGrade && reqGrade.toLowerCase() !== "all") {
+        const norm = (str) => String(str || "").toLowerCase().replace(/[^a-z0-9]/g, "");
+        const target = norm(reqGrade);
+        const targetNum = reqGrade.match(/\d+/)?.[0];
+        filtered = assignedLps.filter((p) => {
+          const pg = norm(p.grade);
+          const pNum = String(p.grade || "").match(/\d+/)?.[0];
+          return pg === target || (targetNum && pNum && targetNum === pNum);
+        });
+      }
+      return res.json({
+        success: true,
+        lesson_plans: filtered,
+        count: filtered.length,
+        total: filtered.length,
+        source: "assigned_lesson_plans",
+      });
+    }
 
     // 0. Check Rotational Plan: If this school has a rotational curriculum plan covering this sport,
     // or if an active rotational sport template exists, use the configured selected_lp_ids.
