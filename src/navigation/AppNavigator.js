@@ -1,3 +1,7 @@
+import { EquipmentHomeScreen, EquipmentStockScreen, EquipmentRequestsScreen, EquipmentActionScreen } from '../screens/EquipmentScreens';
+import MatchReportScreen from '../screens/MatchReportScreen';
+import MatchReportDetailScreen from '../screens/MatchReportDetailScreen';
+import MatchReportFormScreen from '../screens/MatchReportFormScreen';
 import { useState } from 'react';
 import { NavigationContainer, createNavigationContainerRef, DefaultTheme, DarkTheme } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -51,6 +55,8 @@ const navTheme = () => {
 
 // Detail pages registered inside every tab's stack, so the tab bar stays visible on all of them.
 const SHARED = {
+  Equipment: EquipmentHomeScreen, EquipmentStock: EquipmentStockScreen, EquipmentRequests: EquipmentRequestsScreen, EquipmentAction: EquipmentActionScreen,
+  MatchReport: MatchReportScreen, MatchReportDetail: MatchReportDetailScreen, MatchReportForm: MatchReportFormScreen,
   GalleryDetail: GalleryDetailScreen, CurriculumDetail: CurriculumDetailScreen, CurriculumBuilder: CurriculumBuilderScreen,
   LessonPlan: LessonPlanScreen, ExtraCover: ExtraCoverScreen, HelpdeskPage: HelpdeskScreen, ComingSoon: ComingSoonScreen,
   Teams: TeamsScreen, TeamDetail: TeamDetailScreen, TeamForm: TeamFormScreen, AddPlayers: AddPlayersScreen,

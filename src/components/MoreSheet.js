@@ -8,6 +8,8 @@ import { colors, themed, currentMode } from '../theme/colors';
 // Head coach "More" bottom sheet. Tiles = pages role 4 has on the web (effective permissions).
 // [key, label, icon set, icon, light bg, light border, fg, dark bg, route]
 const TILES = [
+  { key: 'equipment', label: 'Equipment', lib: 'mci', icon: 'basketball', c: ['#E7F7F4', '#BDE8DE', '#138575', '#173630'], go: ['Equipment'] },
+  { key: 'matchreport', label: 'Match Report', lib: 'mci', icon: 'trophy-outline', c: ['#FFF4E5', '#FBDDB4', '#C48316', '#33291B'], go: ['MatchReport'] },
   { key: 'team', label: 'Team', lib: 'mci', icon: 'account-group', c: ['#F3EEFF', '#DDD0FB', '#7C3AED', '#2A2140'], go: ['Teams', { kind: 'teams' }] },
   { key: 'sdp', label: 'SDP', lib: 'mci', icon: 'medal', c: ['#E9F7EE', '#C8EBD4', '#1E8E3E', '#1B2E22'], go: ['Teams', { kind: 'sports-teams' }] },
   { key: 'student', label: 'Students', lib: 'ion', icon: 'school', c: ['#EAF2FF', '#CFE0FC', '#2563EB', '#1C2638'], go: ['StudentList'] },

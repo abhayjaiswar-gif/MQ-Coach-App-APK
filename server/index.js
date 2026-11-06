@@ -1,4 +1,4 @@
-﻿const path = require('path');
+const path = require('path');
 const fs = require('fs');
 require('dotenv').config({ path: path.join(__dirname, '.env') });
 
@@ -36,6 +36,8 @@ app.use('/api', requireAuth);
 
 const ctx = { db, UPLOADS_DIR, PDF_TEMP_DIR, upload: null, socialUpload: null };
 mountWeeklyReportCardPdf(app, ctx);
+require('./routes/inventory')(app, ctx);
+require('./routes/matchReports')(app, ctx);
 mountLegacy(app, ctx);
 
 // Feature organisers (documentation + future splits)

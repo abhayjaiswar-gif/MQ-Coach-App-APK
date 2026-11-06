@@ -1,4 +1,4 @@
-﻿import * as SecureStore from 'expo-secure-store';
+import * as SecureStore from 'expo-secure-store';
 
 // ===== CONFIG =====
 // Set EXPO_PUBLIC_API_URL in .env (use your PC's LAN IP on a real phone)
@@ -555,3 +555,26 @@ export const reportCardPdfUrl = (resultId, options) => `${API_URL}/api/reports/d
 export const reportCardZipUrl = (ids, options) => `${API_URL}/api/reports/download-zip?ids=${encodeURIComponent(ids.join(','))}&overrides=${encodeURIComponent(JSON.stringify(options))}`;
 export const detailReportPdfUrl = (resultId) => `${API_URL}/api/reports/detail-pdf/${resultId}`;
 
+
+// ===== EQUIPMENT: shared school counts + append-only movements =====
+export const getEquipmentSchools = async () => (await getJson('/api/school-inventory/schools', 'Could not load schools')).schools || [];
+export const getEquipmentStock = schoolId => getJson(`/api/equipment/current?${qs({school_id:schoolId})}`, 'Could not load stock');
+export const getEquipmentRecipients = schoolId => getJson(`/api/equipment/recipients?${qs({school_id:schoolId})}`, 'Could not load people');
+export const getEquipmentLoans = async schoolId => (await getJson(`/api/equipment/loans?${qs({school_id:schoolId})}`, 'Could not load loans')).loans || [];
+export const getEquipmentMovements = (schoolId,before) => getJson(`/api/equipment/movements?${qs({school_id:schoolId,...(before?{before}:{})})}`, 'Could not load activity');
+export const getEquipmentRequests = async schoolId => (await getJson(`/api/equipment-orders?${qs({school_id:schoolId})}`, 'Could not load requests')).orders || [];
+export const saveEquipmentMovement = fields => sendJson('/api/equipment/movements', fields, 'Could not update stock');
+export const retryEquipmentMissing = id => sendJson(`/api/equipment/movements/${id}/retry`, {}, 'Could not retry this report');
+export const requestEquipment = (fields,photo) => postMultipart('/api/equipment-orders', () => {
+  const form = new FormData();
+  Object.entries(fields).forEach(([k,v])=>form.append(k, typeof v==='object'?JSON.stringify(v):String(v)));
+  if(photo) form.append('image',filePart({...photo,type:'image'},0));
+  return form;
+}, 'Could not request equipment');
+
+// Match screens already exist; keep their feature wiring intact.
+export async function getMatchReports(){return (await getJson('/api/match-reports','Could not load matches')).reports||[];}
+export async function getMatchReport(id){return (await getJson('/api/match-reports/'+id,'Could not load match')).report;}
+export const getMatchOptions=schoolId=>getJson('/api/match-reports/options?'+qs({school_id:schoolId}),'Could not load match choices');
+export async function matchReportPdfUrl(id){return API_URL+(await getJson('/api/match-reports/'+id+'/pdf-link','Could not open PDF')).path;}
+export function saveMatchReport(id,fields,photos=[],pdf){return postMultipart(id?'/api/match-reports/'+id+'/edit':'/api/match-reports',()=>{const form=new FormData();Object.entries(fields).forEach(([k,v])=>{if(v!==undefined&&v!==null)form.append(k,Array.isArray(v)?JSON.stringify(v):String(v));});photos.forEach((p,i)=>form.append('photos',filePart({...p,type:'image'},i)));if(pdf)form.append('report',{uri:pdf.uri,name:pdf.name||'match-report.pdf',type:'application/pdf'});return form;},'Could not save match');}

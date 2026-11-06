@@ -2,6 +2,7 @@
 
 // Public routes that must work without a Bearer token.
 const PUBLIC = [
+  /^\/api\/match-report-pdf\/\d+$/, // short-lived signed download only
   /^\/api\/login$/,
   /^\/api\/refresh$/,
   /^\/api\/logout$/,
